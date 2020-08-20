@@ -8,7 +8,6 @@ import {
   REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  SET_ERROR,
   CLEAR_ERROR,
   LOGOUT,
   SET_USER,
@@ -17,7 +16,7 @@ import {
 
 const AuthState = (props) => {
   const intialState = {
-    token: localStorage.getItem('token'),
+    token: localStorage.getItem("token"),
     loading: true,
     user: null,
     userAuth: null,
@@ -39,7 +38,7 @@ const AuthState = (props) => {
     } catch (err) {
       dispatch({
         type: AUTH_ERROR,
-        payload: err,
+        // payload: err,
       });
     }
   };
@@ -60,7 +59,7 @@ const AuthState = (props) => {
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
-        payload: err.response.data,
+        payload: err.response.data.error,
       });
     }
   };
@@ -81,7 +80,7 @@ const AuthState = (props) => {
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
-        payload: err.response.data,
+        payload: err.response.data.msg,
       });
     }
   };
@@ -89,8 +88,8 @@ const AuthState = (props) => {
   //set errors
   const setError = (err) => {
     dispatch({
-      type: SET_ERROR,
-      payload: err,
+      type: REGISTER_FAIL,
+      payload: [{ msg: err }],
     });
   };
 

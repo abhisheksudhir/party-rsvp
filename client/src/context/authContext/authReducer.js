@@ -3,7 +3,6 @@ import {
   REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  SET_ERROR,
   CLEAR_ERROR,
   LOGOUT,
   SET_USER,
@@ -25,6 +24,7 @@ export default (state, action) => {
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
+        ...action.payload,
         userAuth: true,
         loading: false,
         errors: null,
@@ -39,12 +39,7 @@ export default (state, action) => {
         token: null,
         userAuth: null,
         user: null,
-        loading: null,
-        errors: action.payload,
-      };
-    case SET_ERROR:
-      return {
-        ...state,
+        loading: false,
         errors: action.payload,
       };
     case CLEAR_ERROR:
@@ -52,7 +47,6 @@ export default (state, action) => {
         ...state,
         errors: null,
       };
-
     default:
       return state;
   }

@@ -18,6 +18,7 @@ export default (state, { type, payload }) => {
       return {
         ...state,
         guests: payload,
+        errors: null,
       };
 
     case ADD_GUEST:
@@ -50,7 +51,7 @@ export default (state, { type, payload }) => {
     case GUESTS_ERROR:
       return {
         ...state,
-        guests: [],
+        // guests: [],
         errors: payload,
       };
     case SEARCH_GUEST:
@@ -72,11 +73,11 @@ export default (state, { type, payload }) => {
     case CLEAR_GUESTS:
       return {
         ...state,
-        guestFilter: false,
-        searchGuest: null,
-        editGuest: null,
+        filterGuest: false,
+        search: null,
+        editable: null,
         guests: [],
-        error: null,
+        errors: null,
       };
     default:
       return state;

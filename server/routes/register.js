@@ -25,13 +25,14 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ error: errors.array() });
     }
-    // res.send("success");
+
     const { name, email, password } = req.body;
+
     try {
+      //checking if user already exists
       let user = await User.findOne({ email });
       if (user) {
-        // return res.status(400).json({ error: [{ msg: "user already exits" }] });
-        return res.status(400).json({ msg: "user already exits" });
+        return res.status(400).json({error: [{ msg: "user already exits" }]});
       }
       user = new User({
         name,

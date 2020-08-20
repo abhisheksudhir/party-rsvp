@@ -9,6 +9,7 @@ const Login = (props) => {
     if (userAuth) {
       props.history.push("/");
     }
+    clearError();
   }, [userAuth, props.history]);
 
   const [user, setUser] = useState({
@@ -20,7 +21,9 @@ const Login = (props) => {
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    clearError();
+    if (errors !== null) {
+      clearError();
+    }
   };
 
   const submit = (e) => {
@@ -53,12 +56,16 @@ const Login = (props) => {
       <div className="question">
         {errors !== null && (
           <button className="danger" type="button">
-            {errors.msg ? errors.msg : errors.error[0].msg}
+            {/* {errors.msg ? errors.msg : errors.error[0].msg} */}
+            {errors}
             <span onClick={() => clearError()}>X</span>
           </button>
         )}
         <p>
-          Dont' have an accout? <Link to="/register">Sign Up</Link>
+          Dont' have an accout?{" "}
+          <Link to="/register" onClick={() => clearError()}>
+            Sign Up
+          </Link>
         </p>
       </div>
     </div>

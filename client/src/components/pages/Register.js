@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import AuthContext from "../../context/authContext/authContext";
 import { Link } from "react-router-dom";
+import AuthContext from "../../context/authContext/authContext";
 
 const Register = (props) => {
   const { registerUser, userAuth, errors, setError, clearError } = useContext(
@@ -11,6 +11,7 @@ const Register = (props) => {
     if (userAuth) {
       props.history.push("/");
     }
+    clearError();
   }, [userAuth, props.history]);
 
   const [user, setUser] = useState({
@@ -24,13 +25,15 @@ const Register = (props) => {
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    clearError();
+    if (errors !== null) {
+      clearError();
+    }
   };
 
   const submit = (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setError({ msg: "passwords don't match" });
+      setError("passwords don't match");
     } else {
       registerUser({ name, email, password });
       clearError();
@@ -73,14 +76,17 @@ const Register = (props) => {
         <input type="submit" value="Sign Up" className="btn" />
       </form>
       <div className="question">
-        {errors !== null && (
-          <button className="danger" type="button">
-            {errors.msg ? errors.msg : errors.error[0].msg}
-            <span onClick={() => clearError()}>X</span>
-          </button>
-        )}
+        {errors !== null &&
+          errors.map((err) => (
+            <button className="danger" type="button">
+              {err.msg} <span onClick={() => clearError()}>X</span>
+            </button>
+          ))}
         <p>
-          Already have an accout? <Link to="/login">Login </Link>
+          Already have an accout?{" "}
+          <Link to="/login" onClick={() => clearError()}>
+            Login{" "}
+          </Link>
         </p>
       </div>
     </div>

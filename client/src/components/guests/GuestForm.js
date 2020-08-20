@@ -2,16 +2,17 @@ import React, { useState, useContext, useEffect } from "react";
 import GuestContext from "../../context/guestContext/guestContext";
 
 const GuestForm = () => {
-  const { addGuest, editable, updateGuest, clearEdit } = useContext(
-    GuestContext
-  );
+  const context = useContext(GuestContext);
+  const { addGuest, editable, updateGuest, clearEdit } = context;
+
   useEffect(() => {
     if (editable != null) {
       setGuest(editable);
     } else {
       setGuest({ name: "", phone: "", dietary: "Non-Veg" });
     }
-  }, [editable]);
+  }, [editable, context]);
+
   const [guest, setGuest] = useState({
     name: "",
     phone: "",
@@ -34,13 +35,13 @@ const GuestForm = () => {
       clearEdit();
     } else {
       addGuest(guest);
-      setGuest({ name: "", phone: "", dietary: "Non-Veg" });
     }
+    setGuest({ name: "", phone: "", dietary: "Non-Veg" });
   };
 
   return (
     <div className="invite-section">
-      <h1>{editable!==null ? "Edit Guest" :"Invite Someone"}</h1>
+      <h1>{editable !== null ? "Edit Guest" : "Invite Someone"}</h1>
       <form onSubmit={onsubmit}>
         <input
           type="text"
@@ -92,8 +93,19 @@ const GuestForm = () => {
             <span className="checkmark"></span>
           </label>
         </div>
-        <input type="submit" value={editable!==null ? "Update Guest" : "Add Guest"} className="btn" />
-        {editable !== null ? < input onClick={clearEdit} type="button" className="btn clear" value="Cancel" /> : null}
+        <input
+          type="submit"
+          value={editable !== null ? "Update Guest" : "Add Guest"}
+          className="btn"
+        />
+        {editable !== null ? (
+          <input
+            onClick={clearEdit}
+            type="button"
+            className="btn clear"
+            value="Cancel"
+          />
+        ) : null}
       </form>
     </div>
   );
